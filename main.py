@@ -144,7 +144,8 @@ def root():
 
 @app.get("/health", tags=["Health"])
 def health():
-    return {"status": "healthy"}@app.post("/api/auth/bootstrap-admin", response_model=UserOut, status_code=201, tags=["Auth"])
+    return {"status": "healthy"}
+    @app.post("/api/auth/bootstrap-admin", response_model=UserOut, status_code=201, tags=["Auth"])
 def bootstrap_admin(payload: UserCreate, db: Session = Depends(get_db)):
     if db.query(User).filter(User.role == UserRole.ADMIN).first():
         raise HTTPException(status_code=403, detail="Admin allaqachon mavjud")
