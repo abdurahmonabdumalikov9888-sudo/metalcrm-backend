@@ -13,7 +13,12 @@ from sqlalchemy.orm import declarative_base, sessionmaker, Session
 from jose import jwt, JWTError
 from passlib.context import CryptContext
 
-DATABASE_URL = os.environ["DATABASE_URL"].replace("postgres://", "postgresql://", 1)
+DATABASE_URL = os.environ["DATABASE_URL"]
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql+psycopg://", 1)
+elif DATABASE_URL.startswith("postgresql://"):
+    DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+psycopg://", 1)
+
 JWT_SECRET_KEY = os.environ["JWT_SECRET_KEY"]
 JWT_ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 12
